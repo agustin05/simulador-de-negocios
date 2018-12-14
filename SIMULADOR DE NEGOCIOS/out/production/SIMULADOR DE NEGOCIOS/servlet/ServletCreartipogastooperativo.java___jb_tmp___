@@ -1,0 +1,38 @@
+package servlet;
+
+import controller.controladortipogastooperativo;
+import include.tipogastooperativo;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@WebServlet(name = "ServletCreartipogastooperativo", urlPatterns = {"/creartipogastooperativo"})
+public class ServletCreartipogastooperativo extends HttpServlet {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String concepto = request.getParameter("concepto");;
+
+        int idtipoGasto = 0;
+
+        try {
+            idtipoGasto = Integer.parseInt(request.getParameter("idtipoGasto"));
+        } catch (NumberFormatException e){
+
+        }
+        tipogastooperativo nuevatipogastooperativo = new tipogastooperativo(idtipoGasto, concepto);
+
+        controladortipogastooperativo cc = new controladortipogastooperativo();
+        if(cc.agregartipogastooperativo(nuevatipogastooperativo)) {
+            response.sendRedirect("tipogastooperativos.jsp");
+        } else {
+            response.sendRedirect("a_tipogastooperativo.jsp");
+        }
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    }
+}

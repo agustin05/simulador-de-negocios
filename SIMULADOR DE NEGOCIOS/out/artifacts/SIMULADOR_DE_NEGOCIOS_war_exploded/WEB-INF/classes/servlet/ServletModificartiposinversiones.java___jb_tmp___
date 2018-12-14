@@ -1,0 +1,38 @@
+package servlet;
+
+import controller.controladortiposinversiones;
+import include.tiposinversiones;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@WebServlet(name = "ServletModificartiposinversiones", urlPatterns = {"/modificartiposinversiones"})
+public class ServletModificartiposinversiones extends HttpServlet {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String concepto = request.getParameter("concepto");;
+        int idtiposInversiones = 0;
+
+        try {
+            idtiposInversiones = Integer.parseInt(request.getParameter("idtiposInversiones"));
+        } catch (NumberFormatException e){
+
+        }
+
+
+        tiposinversiones nuevatiposinversiones = new tiposinversiones(idtiposInversiones, concepto);
+
+        controladortiposinversiones cc = new controladortiposinversiones();
+        if(cc.actualizartiposinversiones(nuevatiposinversiones)) {
+            response.sendRedirect("tiposinversioness.jsp");
+        } else {
+            response.sendRedirect("m_tiposinversiones.jsp?idtiposInversiones=" + idtiposInversiones);
+        }
+    }
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    }
+}
